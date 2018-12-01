@@ -91,7 +91,6 @@ public:
 	int SortGroup{};
 	DWORD CRC32{};
 
-	const wchar_t *DizText{};
 	bool DeleteDiz{};
 
 	bool Selected{};
