@@ -2295,6 +2295,7 @@ $ #Special symbols#
     #!&~~#      List of selected short file names
     #!:#       Current drive in the format "C:"
              For remote folders - "\\\\server\\share"
+    #!*#       Description of the current file
     #!\\#       Current path
     #!/#       Short name of the current path
     #!=\\#      Current path considering ~symbolic links~@HardSymLink@.
