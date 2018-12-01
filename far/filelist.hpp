@@ -228,6 +228,7 @@ private:
 	void SetSelectedFirstMode(bool Mode) override;
 	void DisplayObject() override;
 	bool GetCurName(string &strName, string &strShortName) const override;
+  bool GetCurDiz(string &strDiz) const override;
 	bool GetCurBaseName(string &strName, string &strShortName) const override;
 
 	bool HardlinksSupported() const;

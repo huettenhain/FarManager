@@ -3885,6 +3885,18 @@ const FileListItem* FileList::GetLastSelectedItem() const
 	return nullptr;
 }
 
+bool FileList::GetCurDiz(string &strDiz) const
+{
+	if (m_ListData.empty())
+		return false;
+
+	assert(m_CurFile < static_cast<int>(m_ListData.size()));
+
+  auto p = m_ListData[m_CurFile].DizText;
+  if (p) strDiz = p; else strDiz.clear();
+	return true;
+}
+
 bool FileList::GetCurName(string &strName, string &strShortName) const
 {
 	if (m_ListData.empty())

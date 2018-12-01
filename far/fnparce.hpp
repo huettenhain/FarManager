@@ -53,10 +53,12 @@ class subst_context
 {
 public:
 	subst_context(string_view NameStr, string_view ShortNameStr);
+  subst_context(string_view NameStr, string_view ShortNameStr, string_view Description);
 
 	string_view Name;
 	string_view ShortName;
 	string_view Path;
+  string_view Description;
 };
 
 bool SubstFileName(

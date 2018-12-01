@@ -191,6 +191,7 @@ public:
 	virtual void ClearLastGetSelection() {}
 	virtual bool GetCurName(string &strName, string &strShortName) const;
 	virtual bool GetCurBaseName(string &strName, string &strShortName) const;
+  virtual bool GetCurDiz(string &strDiz) const { return false; }
 	virtual bool GetFileName(string &strName, int Pos, DWORD &FileAttr) const { return false; }
 	virtual int GetCurrentPos() const {return 0;}
 	virtual bool IsFocused() const;

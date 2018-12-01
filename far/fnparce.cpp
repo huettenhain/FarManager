@@ -34,6 +34,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "fnparce.hpp"
 
 #include "panel.hpp"
+#include "filelist.hpp"
 #include "ctrlobj.hpp"
 #include "flink.hpp"
 #include "cmdline.hpp"
@@ -80,6 +81,15 @@ subst_context::subst_context(string_view NameStr, string_view ShortNameStr):
 	}
 }
 
+subst_context::subst_context(string_view NameStr, string_view ShortNameStr, string_view Description):
+	Name(NameStr),
+	ShortName(ShortNameStr),
+	Path(NameStr),
+  Description(Description)
+{
+	subst_context(NameStr, ShortNameStr);
+}
+
 bool list_names::any() const
 {
 	return !This.Name.empty() || !This.ShortName.empty() || !Another.Name.empty() || !Another.ShortName.empty();
@@ -96,6 +106,7 @@ struct subst_data
 			string* ListName{};
 		}
 		Normal, Short;
+    string_view Description;
 		panel_ptr Panel;
 	}
 	This, Another;
@@ -129,6 +140,7 @@ namespace tokens
 		short_name_extension         = L"!-!"sv,
 		short_name_extension_safe    = L"!+!"sv,
 		current_drive                = L"!:"sv,
+    description                  = L"!*"sv,
 		path                         = L"!\\"sv,
 		short_path                   = L"!/"sv,
 		real_path                    = L"!=\\"sv,
@@ -440,6 +452,12 @@ static string_view ProcessMetasymbol(string_view const CurStr, subst_data& Subst
 		return Tail;
 	}
 
+	if (const auto Tail = tokens::skip(CurStr, tokens::description))
+	{
+    Out += SubstData.This.Description;
+		return Tail;
+	}
+
 	const auto& GetPath = [](string_view const Tail, const subst_data& Data, bool Short, bool Real)
 	{
 		// TODO: paths on plugin panels are ambiguous
@@ -702,6 +720,7 @@ static bool SubstFileName(
 	string &strStr,                  // результирующая строка
 	string_view const Name,
 	string_view const ShortName,
+  string_view const Description,
 	list_names* ListNames,
 	bool* PreserveLongName,
 	bool IgnoreInput,                // true - не исполнять "!?<title>?<init>!"
@@ -724,6 +743,7 @@ static bool SubstFileName(
 	subst_data SubstData;
 	SubstData.This.Normal.Name = Name;
 	SubstData.This.Short.Name = ShortName;
+  SubstData.This.Description = Description;
 	if (ListNames)
 	{
 		SubstData.This.Normal.ListName = &ListNames->This.Name;
@@ -783,6 +803,7 @@ bool SubstFileName(
 		Str,
 		Context.Name,
 		Context.ShortName,
+    Context.Description,
 		ListNames,
 		PreserveLongName,
 		IgnoreInput,
