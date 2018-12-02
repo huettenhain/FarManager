@@ -57,7 +57,7 @@ public:
 	string_view Name;
 	string_view ShortName;
 	string_view Path;
-  string_view Description;
+	string_view Description;
 };
 
 bool SubstFileName(
