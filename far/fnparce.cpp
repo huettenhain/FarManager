@@ -34,7 +34,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "fnparce.hpp"
 
 #include "panel.hpp"
-#include "filelist.hpp"
 #include "ctrlobj.hpp"
 #include "flink.hpp"
 #include "cmdline.hpp"
