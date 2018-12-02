@@ -96,8 +96,6 @@ namespace os::fs
 		DWORD Attributes{};
 		DWORD ReparseTag{};
 
-    const wchar_t *DizText{};
-		
 		const string& AlternateFileName() const;
 		void SetAlternateFileName(string_view Name);
 		bool HasAlternateFileName() const;
