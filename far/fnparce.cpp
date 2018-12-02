@@ -64,10 +64,11 @@ list_names::names::~names()
 	Delete(ShortName);
 }
 
-subst_context::subst_context(string_view NameStr, string_view ShortNameStr):
+subst_context::subst_context(string_view NameStr, string_view ShortNameStr, string_view Description):
 	Name(NameStr),
 	ShortName(ShortNameStr),
-	Path(NameStr)
+	Path(NameStr),
+	Description(Description)
 {
 	if (ContainsSlash(Path) && CutToParent(Path))
 	{
@@ -78,15 +79,6 @@ subst_context::subst_context(string_view NameStr, string_view ShortNameStr):
 	{
 		Path = {};
 	}
-}
-
-subst_context::subst_context(string_view NameStr, string_view ShortNameStr, string_view Description):
-	Name(NameStr),
-	ShortName(ShortNameStr),
-	Path(NameStr),
-  Description(Description)
-{
-	subst_context(NameStr, ShortNameStr);
 }
 
 bool list_names::any() const
