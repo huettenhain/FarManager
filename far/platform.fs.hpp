@@ -95,7 +95,7 @@ namespace os::fs
 		unsigned long long FileId{};
 		DWORD Attributes{};
 		DWORD ReparseTag{};
-		
+
 		const string& AlternateFileName() const;
 		void SetAlternateFileName(string_view Name);
 		bool HasAlternateFileName() const;
