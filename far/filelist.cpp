@@ -3820,6 +3820,38 @@ size_t FileList::GetRealSelCount() const
 	return !m_ListData.empty()? m_SelFileCount : 0;
 }
 
+auto FileList::enum_selected_files()
+{
+	using value_type = FileListItem*;
+	GetSelPosition = 0;
+	LastSelPosition = -1;
+	return make_inline_enumerator<value_type>([this](const bool Reset, value_type& Value)
+	{
+		if (!m_SelFileCount || ReturnCurrentFile)
+		{
+			if (!GetSelPosition && m_CurFile < static_cast<int>(m_ListData.size()))
+			{
+				GetSelPosition = 1;
+				Value = &m_ListData[m_CurFile];
+				LastSelPosition = m_CurFile;
+				return true;
+			}
+			return false;
+		}
+
+		while (GetSelPosition < static_cast<int>(m_ListData.size()))
+		{
+			if (m_ListData[GetSelPosition++].Selected)
+			{
+				Value = &m_ListData[GetSelPosition - 1];
+				LastSelPosition = GetSelPosition - 1;
+				return true;
+			}
+		}
+
+		return false;
+	});
+}
 
 bool FileList::GetSelName(string* strName, DWORD& FileAttr, string* strShortName, os::fs::find_data* fd)
 {
@@ -3892,7 +3924,7 @@ bool FileList::GetCurDiz(string &strDiz) const
 
 	assert(m_CurFile < static_cast<int>(m_ListData.size()));
 
-	strDiz = EmptyToNull(m_ListData[m_CurFile].DizText);
+  strDiz = NullToEmpty(m_ListData[m_CurFile].DizText);
 	return true;
 }
 
@@ -4884,22 +4916,18 @@ bool FileList::ApplyCommand()
 	Parent()->GetCmdLine()->LockUpdatePanel(true);
 	{
 		const auto ExecutionContext = Global->WindowManager->Desktop()->ConsoleSession().GetContext();
-		for (const auto& i: enum_selected())
+		for (const auto& i: enum_selected_files())
 		{
 			if (CheckForEsc())
 				break;
 
 			string strConvertedCommand = strCommand;
-      string strDescription;
 			list_names ListNames;
 			bool PreserveLFN = false;
 
-      if (i.DizText)
-        strDescription = i.DizText;
-
-			if (SubstFileName(strConvertedCommand, subst_context(i.FileName, i.AlternateFileName(), strDescription), &ListNames, &PreserveLFN) && !strConvertedCommand.empty())
+			if (SubstFileName(strConvertedCommand, subst_context(i->FileName, i->AlternateFileName(), NullToEmpty(i->DizText)), &ListNames, &PreserveLFN) && !strConvertedCommand.empty())
 			{
-				SCOPED_ACTION(PreserveLongName)(i.AlternateFileName(), PreserveLFN);
+				SCOPED_ACTION(PreserveLongName)(i->AlternateFileName(), PreserveLFN);
 
 				execute_info Info;
 				Info.Command = strConvertedCommand;

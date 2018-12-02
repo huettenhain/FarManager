@@ -97,6 +97,8 @@ public:
 	bool PrevSelected{};
 	char ShowFolderSize{};
 
+	const wchar_t *DizText{};
+
 	struct values
 	{
 		template<class T>
@@ -213,6 +215,8 @@ public:
 	static bool FileNameToPluginItem(const string& Name, class PluginPanelItemHolder& pi);
 	void FileListToPluginItem(const FileListItem& fi, PluginPanelItemHolder& pi) const;
 	static bool IsModeFullScreen(int Mode);
+
+	auto enum_selected_files();
 
 	struct PrevDataItem;
 
