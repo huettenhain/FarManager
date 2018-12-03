@@ -3892,8 +3892,7 @@ bool FileList::GetCurDiz(string &strDiz) const
 
 	assert(m_CurFile < static_cast<int>(m_ListData.size()));
 
-  auto p = m_ListData[m_CurFile].DizText;
-  if (p) strDiz = p; else strDiz.clear();
+	strDiz = EmptyToNull(m_ListData[m_CurFile].DizText);
 	return true;
 }
 
