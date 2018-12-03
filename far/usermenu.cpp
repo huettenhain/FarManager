@@ -532,8 +532,7 @@ int UserMenu::ProcessSingleMenu(std::list<UserMenuItem>& Menu, int MenuPos, std:
 		Global->CtrlObject->Cp()->ActivePanel()->GetCurDiz(Descr);
 		const auto& strName = Names[0];
 		const auto& strShortName = Names[1];
-		const auto& strDescr = Descr;
-		const subst_context Context(strName, strShortName, strDescr);
+		const subst_context Context(strName, strShortName, Descr);
 
 		/* $ 24.07.2000 VVM + При показе главного меню в заголовок добавляет тип - FAR/Registry */
 
