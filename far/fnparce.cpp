@@ -131,11 +131,11 @@ namespace tokens
 		short_name_extension         = L"!-!"sv,
 		short_name_extension_safe    = L"!+!"sv,
 		current_drive                = L"!:"sv,
-		description                  = L"!*"sv,
 		path                         = L"!\\"sv,
 		short_path                   = L"!/"sv,
 		real_path                    = L"!=\\"sv,
 		real_short_path              = L"!=/"sv,
+		description                  = L"!?!"sv,
 		input                        = L"!?"sv,
 		name                         = L"!"sv;
 
